@@ -1,0 +1,1225 @@
+/* ==========================================================================
+   BorneApp — plateforme web
+   Thème sombre anthracite et rouge carmin, partagé avec l'app mobile :
+   Outfit pour les titres, DM Sans pour le texte, JetBrains Mono pour les identifiants.
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+  --fond: #121215;
+  --surface: #1b1b20;
+  --surface-alt: #24242a;
+  --surface-haute: #2a2a31;
+  --bordure: #2e2e36;
+  --bordure-douce: #26262d;
+  --texte: #f5f5f7;
+  --texte-doux: #a1a1aa;
+  --texte-discret: #8e8e99;
+
+  /* Rouge carmin : --primaire pour les fonds à texte blanc, --electrique pour le texte sur fond sombre. */
+  --primaire: #d0142c;
+  --primaire-survol: #e11d2e;
+  --primaire-fonce: #b8102a;
+  --energie: #f04257;
+  --primaire-doux: rgba(240, 66, 87, 0.12);
+  --electrique: #f04257;
+
+  --encre: #0d0d10;
+  --encre-relevee: #1e1e24;
+  --encre-profonde: #08080a;
+  --sur-encre: #f5f5f7;
+  --sur-encre-doux: #a1a1aa;
+
+  --cuivre: #f0955a;
+  --cuivre-doux: rgba(240, 149, 90, 0.12);
+
+  --police-titre: 'Outfit Variable', 'Outfit', system-ui, sans-serif;
+  --police-texte: 'DM Sans Variable', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --police-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --ombre-carte: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 16px 32px -20px rgba(0, 0, 0, 0.7);
+  --ombre-survol: 0 0 0 1px rgba(240, 66, 87, 0.28), 0 22px 44px -18px rgba(0, 0, 0, 0.85);
+  --lueur-rouge: 0 12px 30px -10px rgba(208, 20, 44, 0.7);
+  --rayon: 18px;
+  --sider: 248px;
+
+  /* Échelle des plans */
+  --z-entete: 10;
+  --z-sider: 20;
+  --z-voile: 25;
+  --z-sider-mobile: 30;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background:
+    radial-gradient(1100px 460px at 80% -160px, rgba(208, 20, 44, 0.14), transparent 70%),
+    radial-gradient(800px 380px at -10% -80px, rgba(208, 20, 44, 0.06), transparent 70%),
+    var(--fond);
+  background-attachment: fixed;
+  color: var(--texte);
+  font-family: var(--police-texte);
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Barres de défilement discrètes */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+.navigation * {
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
+::selection {
+  background: rgba(240, 66, 87, 0.35);
+}
+
+:focus-visible {
+  outline: 2px solid var(--electrique);
+  outline-offset: 2px;
+}
+
+/* Titres en Outfit, chiffres alignés partout */
+h1,
+h2,
+h3,
+h4,
+.ant-typography h1,
+.ant-typography h2,
+.ant-typography h3,
+.ant-typography h4,
+.ant-card-head-title,
+.ant-modal-title,
+.ant-drawer-title,
+.ant-result-title {
+  font-family: var(--police-titre) !important;
+  letter-spacing: -0.02em;
+}
+.ant-statistic-content,
+.ant-table,
+.ant-descriptions,
+.chiffre {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   Marque
+   ========================================================================== */
+
+.marque {
+  display: flex;
+  flex: none;
+  align-items: center;
+  height: 72px;
+  padding: 0 18px;
+  overflow: hidden;
+}
+.marque-contenu {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--sur-encre);
+  white-space: nowrap;
+}
+.marque-contenu img {
+  max-height: 32px;
+  max-width: 140px;
+  object-fit: contain;
+}
+.marque-nom {
+  font-family: var(--police-titre);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.marque-contenu-clair {
+  color: var(--texte);
+}
+.symbole-marque {
+  flex: none;
+  filter: drop-shadow(0 6px 14px rgba(208, 20, 44, 0.45));
+}
+/* Compatibilité : pastille de marque utilisée hors navigation */
+.marque-icone {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--encre-relevee), var(--encre));
+  color: var(--electrique);
+  font-size: 16px;
+}
+
+/* ==========================================================================
+   Navigation latérale (personnel)
+   ========================================================================== */
+
+.ant-layout-sider.navigation {
+  background:
+    radial-gradient(420px 260px at -10% -10%, rgba(208, 20, 44, 0.14), transparent 70%),
+    linear-gradient(180deg, var(--encre) 0%, var(--encre-profonde) 100%) !important;
+  border-inline-end: 1px solid rgba(255, 255, 255, 0.04);
+}
+.navigation .ant-layout-sider-children {
+  display: flex;
+  flex-direction: column;
+}
+.navigation .ant-menu {
+  background: transparent !important;
+  flex: 1;
+  padding-bottom: 12px;
+}
+.navigation .ant-menu-item-group-title {
+  padding-top: 18px !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.navigation .ant-menu-item {
+  position: relative;
+  font-weight: 600;
+}
+.navigation .ant-menu-item-selected::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: -10px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--electrique);
+  box-shadow: 0 0 12px var(--electrique);
+}
+.navigation .ant-menu-inline-collapsed .ant-menu-item-selected::before {
+  display: none;
+}
+.navigation-pied {
+  flex: none;
+  margin: 0 12px 14px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--sur-encre-doux);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.navigation-pied strong {
+  display: block;
+  color: var(--sur-encre);
+  font-size: 13px;
+}
+
+/* Voile derrière le menu ouvert sur mobile */
+.voile {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-voile);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+/* ==========================================================================
+   En-tête
+   ========================================================================== */
+
+.entete {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-entete);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 24px !important;
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: none;
+}
+.entete-espace {
+  background: rgba(18, 18, 21, 0.72) !important;
+}
+.entete-titre {
+  color: var(--texte-doux);
+  font-weight: 600;
+  font-size: 13px;
+}
+.entete-titre b {
+  color: var(--texte);
+}
+
+/* Pastille d'état du temps réel */
+.direct {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--ombre-carte);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--texte-doux);
+  white-space: nowrap;
+}
+.direct-point {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--texte-discret);
+}
+.direct-connecte .direct-point {
+  background: #22c55e;
+}
+.direct-connecte .direct-point::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid #22c55e;
+  animation: pulsation 1.8s ease-out infinite;
+}
+.direct-reconnexion .direct-point {
+  background: #f5b83d;
+}
+.direct-connecte {
+  color: #4ade80;
+}
+@keyframes pulsation {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.avatar-utilisateur {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px 4px 4px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.avatar-utilisateur:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+.avatar-utilisateur .ant-avatar {
+  background: linear-gradient(135deg, var(--primaire-survol), var(--primaire-fonce)) !important;
+  color: #fff !important;
+  font-family: var(--police-titre);
+  font-weight: 700;
+}
+.avatar-nom {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.avatar-nom strong {
+  font-size: 13px;
+}
+.avatar-nom span {
+  font-size: 11px;
+  color: var(--texte-discret);
+}
+
+/* ==========================================================================
+   Contenu
+   ========================================================================== */
+
+.contenu {
+  padding: 28px 32px 48px;
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+.contenu-espace {
+  max-width: 1200px;
+}
+@media (max-width: 768px) {
+  .contenu {
+    padding: 16px 16px 40px;
+  }
+  .entete,
+  .entete-espace {
+    padding: 0 12px !important;
+  }
+}
+
+/* Titres de page */
+.en-tete-page {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  margin-bottom: 8px;
+}
+.en-tete-page h3.ant-typography {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.en-tete-sous-titre {
+  display: block;
+  margin-top: 4px;
+  color: var(--texte-doux);
+  font-size: 14px;
+}
+
+.pile {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ==========================================================================
+   Cartes, tableaux, formulaires
+   ========================================================================== */
+
+.ant-card {
+  border: none !important;
+  box-shadow: var(--ombre-carte) !important;
+  border-radius: var(--rayon) !important;
+}
+.ant-card .ant-card-head {
+  border-bottom-color: var(--bordure-douce);
+}
+.ant-card-small > .ant-card-head {
+  padding: 0 16px;
+}
+.ant-card-small > .ant-card-body {
+  padding: 16px;
+}
+.ant-card-head-title {
+  font-weight: 600 !important;
+}
+.ant-card-hoverable {
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.ant-card-hoverable:hover {
+  box-shadow: var(--ombre-survol) !important;
+}
+
+/* Tableaux autonomes : même habillage que les cartes */
+.pile > .ant-table-wrapper,
+.ant-card .ant-table-wrapper {
+  border-radius: var(--rayon);
+}
+.pile > .ant-table-wrapper {
+  background: var(--surface);
+  box-shadow: var(--ombre-carte);
+  overflow: hidden;
+}
+.ant-table-thead > tr > th {
+  font-size: 12px;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.ant-table-tbody > tr > td {
+  border-bottom-color: var(--bordure-douce) !important;
+}
+
+.ant-tag {
+  border: none;
+  border-radius: 999px;
+  padding-inline: 9px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.ant-btn {
+  box-shadow: none;
+}
+.ant-btn-primary:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+.ant-btn {
+  transition: all 0.2s, transform 0.15s;
+}
+.ant-btn:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+/* Micro-interactions */
+.kpi:hover,
+.ant-card-hoverable:hover,
+.connecteur-carte:hover {
+  transform: translateY(-2px);
+}
+.navigation .ant-menu-item .anticon {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.navigation .ant-menu-item:hover .anticon {
+  transform: translateX(2px) scale(1.08);
+}
+.ant-table-tbody > tr.ant-table-row {
+  transition: background-color 0.2s;
+}
+.ligne-cliquable:hover td:first-child {
+  box-shadow: inset 3px 0 0 var(--energie);
+}
+.kpi-icone {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.kpi:hover .kpi-icone {
+  transform: rotate(-8deg) scale(1.1);
+}
+
+.ant-segmented {
+  padding: 3px;
+}
+.ant-segmented-item-selected {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+.ant-modal .ant-modal-content,
+.ant-drawer-content {
+  border-radius: 18px;
+}
+.ant-drawer-content {
+  border-radius: 0;
+}
+
+.ant-empty-description {
+  color: var(--texte-discret);
+}
+
+/* ==========================================================================
+   KPI
+   ========================================================================== */
+
+.kpi {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.kpi:hover {
+  box-shadow: var(--ombre-survol) !important;
+}
+.kpi::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: -40px;
+  top: -40px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--kpi-couleur, var(--energie)) 0%, transparent 70%);
+  opacity: 0.08;
+  pointer-events: none;
+}
+.kpi-tete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.kpi-titre {
+  color: var(--texte-doux);
+  font-size: 13px;
+  font-weight: 600;
+}
+.kpi-icone {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+.kpi-valeur {
+  font-family: var(--police-titre);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--texte);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kpi-suffixe {
+  margin-inline-start: 4px;
+  font-family: var(--police-texte);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--texte-discret);
+}
+.kpi-pied {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--bordure);
+  font-size: 12px;
+  color: var(--texte-doux);
+}
+@media (max-width: 576px) {
+  .kpi-valeur {
+    font-size: 22px;
+  }
+}
+
+/* Mini-courbe dans les KPI */
+.kpi-tendance {
+  margin: 6px -16px -4px;
+  height: 36px;
+}
+.sparkline {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+/* ==========================================================================
+   Bandeau « réseau en direct » (tableau de bord)
+   ========================================================================== */
+
+.bandeau-encre {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1.25fr 1.2fr 1fr;
+  gap: 28px;
+  padding: 28px 32px 32px;
+  border-radius: 20px;
+  overflow: hidden;
+  color: var(--sur-encre);
+  background:
+    radial-gradient(520px 300px at 100% 0%, rgba(208, 20, 44, 0.28), transparent 70%),
+    radial-gradient(420px 260px at 0% 120%, rgba(208, 20, 44, 0.12), transparent 70%),
+    linear-gradient(140deg, var(--encre-relevee) 0%, var(--encre) 55%, var(--encre-profonde) 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 28px 56px -28px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.bandeau-encre::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(180deg, #000, transparent 85%);
+}
+.bandeau-colonne {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+}
+.bandeau-colonne + .bandeau-colonne {
+  padding-inline-start: 28px;
+  border-inline-start: 1px solid rgba(255, 255, 255, 0.07);
+}
+.bandeau-surtitre {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sur-encre-doux);
+}
+.bandeau-point {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--electrique);
+  box-shadow: 0 0 10px var(--electrique);
+}
+.bandeau-point::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--electrique);
+  animation: pulsation 1.8s ease-out infinite;
+}
+.bandeau-valeur {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--police-titre);
+  font-size: clamp(36px, 3.6vw, 52px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.bandeau-unite {
+  font-size: 0.42em;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--electrique);
+}
+.bandeau-cuivre {
+  color: #f0955a;
+  font-size: clamp(28px, 2.6vw, 38px);
+}
+.bandeau-legende {
+  color: var(--sur-encre-doux);
+  font-size: 13px;
+}
+.bandeau-disponibilite {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+.bandeau-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--sur-encre-doux);
+}
+.bandeau-details strong {
+  color: var(--sur-encre);
+  font-size: 15px;
+}
+.bandeau-courbe {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: -1;
+  height: 90px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.anneau {
+  position: relative;
+  flex: none;
+}
+.anneau svg {
+  display: block;
+}
+.anneau-centre {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  line-height: 1.1;
+}
+.anneau-centre strong {
+  font-family: var(--police-titre);
+  font-size: 30px;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.anneau-centre small {
+  font-size: 13px;
+  margin-inline-start: 1px;
+  color: var(--sur-encre-doux);
+}
+.anneau-centre > span {
+  font-size: 11px;
+  color: var(--sur-encre-doux);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 1100px) {
+  .bandeau-encre {
+    grid-template-columns: 1fr 1fr;
+  }
+  .bandeau-colonne:nth-child(3) {
+    grid-column: 1 / -1;
+    padding-inline-start: 0;
+    border-inline-start: none;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+}
+@media (max-width: 640px) {
+  .bandeau-encre {
+    grid-template-columns: 1fr;
+    padding: 22px 20px 26px;
+    gap: 20px;
+  }
+  .bandeau-colonne + .bandeau-colonne {
+    padding-inline-start: 0;
+    border-inline-start: none;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+}
+
+.bandeau-client {
+  grid-template-columns: 1.3fr 1fr;
+}
+.bandeau-client .bandeau-valeur {
+  font-size: clamp(38px, 4vw, 56px);
+}
+.bandeau-abonnement {
+  font-family: var(--police-titre);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.lien-sur-encre,
+.lien-sur-encre:hover {
+  margin-top: 6px;
+  color: var(--electrique);
+  font-weight: 700;
+  font-size: 13px;
+}
+.ant-btn.bouton-sur-encre {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: var(--sur-encre);
+}
+.ant-btn.bouton-sur-encre:hover {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.24) !important;
+  color: #fff !important;
+}
+.anneau-clair {
+  color: var(--texte);
+}
+.anneau-centre > .anneau-clair-legende {
+  color: var(--texte-doux);
+}
+@media (max-width: 1100px) {
+  .bandeau-client .bandeau-colonne:nth-child(2) {
+    grid-column: auto;
+  }
+}
+
+/* Halo qui suit le pointeur (variables posées par activerHaloCartes) */
+.ant-card:hover {
+  background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(240, 66, 87, 0.09), transparent 45%);
+}
+.bandeau-encre::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(240, 66, 87, 0.16), transparent 50%);
+}
+.bandeau-encre:hover::after {
+  opacity: 1;
+}
+
+/* Aurore : les halos rouges dérivent lentement dans les bandeaux sombres */
+.bandeau-encre,
+.connexion-visuel {
+  background-size: 140% 140%, 140% 140%, 100% 100%;
+  animation: aurore 18s ease-in-out infinite alternate;
+}
+@keyframes aurore {
+  0% {
+    background-position: 0% 0%, 100% 100%, 0 0;
+  }
+  50% {
+    background-position: 30% 20%, 70% 80%, 0 0;
+  }
+  100% {
+    background-position: 10% 40%, 90% 60%, 0 0;
+  }
+}
+
+/* ==========================================================================
+   Carte (Leaflet)
+   ========================================================================== */
+
+.carte {
+  width: 100%;
+  border-radius: 12px;
+  z-index: 0;
+  overflow: hidden;
+}
+.leaflet-container {
+  font-family: var(--police-texte);
+  background: #0d0d10;
+}
+/* Fond de carte OpenStreetMap assombri (aucune clé d'API nécessaire) */
+.leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.82) contrast(0.92) saturate(0.55);
+}
+.leaflet-control-attribution {
+  background: rgba(13, 13, 16, 0.7) !important;
+  color: var(--texte-discret) !important;
+}
+.leaflet-control-attribution a {
+  color: var(--texte-doux) !important;
+}
+.leaflet-bar a {
+  background: var(--surface-alt) !important;
+  color: var(--texte) !important;
+  border-color: var(--bordure) !important;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7);
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: var(--surface-alt);
+  color: var(--texte);
+}
+.leaflet-popup-content {
+  margin: 12px 14px;
+}
+.marqueur {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid #121215;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+.marqueur:hover {
+  transform: scale(1.12);
+}
+.marqueur-charge {
+  position: relative;
+}
+.marqueur-charge::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid #60a5fa;
+  animation: pulsation 1.6s ease-out infinite;
+}
+.marqueur-actif {
+  box-shadow: 0 0 0 5px rgba(240, 66, 87, 0.35), 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* ==========================================================================
+   Divers
+   ========================================================================== */
+
+.ligne-cliquable {
+  cursor: pointer;
+}
+.texte-mono {
+  font-family: var(--police-mono);
+  font-size: 12px;
+  letter-spacing: -0.01em;
+}
+.texte-discret {
+  color: var(--texte-doux);
+  font-size: 12px;
+}
+.connecteur-carte {
+  border: 1px solid var(--bordure);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: var(--surface);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.connecteur-carte:hover {
+  border-color: rgba(240, 66, 87, 0.35);
+  box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.8);
+}
+
+.chargement-page {
+  display: grid;
+  place-items: center;
+  min-height: 50vh;
+}
+
+/* ==========================================================================
+   Page de connexion
+   ========================================================================== */
+
+.connexion {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(420px, 1fr);
+  background: var(--fond);
+}
+.connexion-visuel {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 44px 56px;
+  overflow: hidden;
+  color: var(--sur-encre);
+  background:
+    radial-gradient(700px 480px at 85% 110%, rgba(208, 20, 44, 0.32), transparent 70%),
+    radial-gradient(600px 400px at -10% -20%, rgba(208, 20, 44, 0.14), transparent 70%),
+    linear-gradient(160deg, var(--encre) 0%, var(--encre-profonde) 100%);
+}
+/* Trame discrète en fond */
+.connexion-visuel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at 60% 50%, #000 30%, transparent 75%);
+}
+.connexion-surtitre {
+  margin-bottom: 26px;
+}
+/* Scène de la voiture qui vient se recharger */
+.connexion-scene {
+  max-width: 720px;
+  margin-top: 40px;
+}
+.arret-recharge {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.connexion-titre {
+  max-width: 560px;
+  margin: 0;
+  font-family: var(--police-titre);
+  font-size: clamp(34px, 3.6vw, 52px);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+}
+.connexion-titre .mot {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+}
+.connexion-titre .mot > span {
+  display: inline-block;
+}
+.connexion-titre em {
+  font-style: normal;
+  color: var(--electrique);
+}
+.connexion-texte {
+  max-width: 460px;
+  margin: 18px 0 0;
+  color: var(--sur-encre-doux);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.connexion-atouts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.connexion-atout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sur-encre);
+}
+.connexion-atout .anticon {
+  color: var(--electrique);
+}
+.connexion-pied {
+  color: rgba(161, 161, 170, 0.75);
+  font-size: 12px;
+}
+
+.connexion-formulaire {
+  display: grid;
+  place-items: center;
+  padding: 40px 24px;
+  background: var(--fond);
+}
+.connexion-boite {
+  width: 100%;
+  max-width: 400px;
+}
+.connexion-boite h3.ant-typography {
+  margin: 0 0 6px;
+  font-size: 28px;
+  font-weight: 700;
+}
+.connexion-boite .connexion-intro {
+  display: block;
+  margin-bottom: 28px;
+  color: var(--texte-doux);
+}
+.connexion-boite .ant-form-item-label > label {
+  font-weight: 600;
+}
+.connexion-marque-mobile {
+  display: none;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 960px) {
+  .connexion {
+    grid-template-columns: 1fr;
+  }
+  .connexion-visuel {
+    display: none;
+  }
+  .connexion-marque-mobile {
+    display: flex;
+  }
+}
+
+/* ==========================================================================
+   Accessibilité : moins d'animations
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   Signature visuelle (référence : en-tête flottant, sur-titre, CTA rouge)
+   ========================================================================== */
+
+/* En-tête flottant, arrondi, translucide */
+.entete {
+  top: 12px;
+  margin: 12px 20px 0;
+  height: 64px !important;
+  line-height: normal !important;
+  border-radius: 22px;
+  background: rgba(13, 13, 16, 0.78) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.9);
+}
+@media (max-width: 768px) {
+  .entete {
+    margin: 8px 10px 0;
+    top: 8px;
+  }
+}
+
+/* Sur-titre : pastille rouge en majuscules espacées, point pulsant */
+.surtitre {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(240, 66, 87, 0.32);
+  background: rgba(208, 20, 44, 0.08);
+  color: var(--electrique);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+.surtitre::before {
+  content: '';
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--electrique);
+  box-shadow: 0 0 0 0 rgba(240, 66, 87, 0.6);
+  animation: point-rouge 1.8s ease-out infinite;
+}
+@keyframes point-rouge {
+  0% {
+    box-shadow: 0 0 0 0 rgba(240, 66, 87, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 9px rgba(240, 66, 87, 0);
+  }
+}
+.en-tete-page .surtitre {
+  margin-bottom: 14px;
+}
+.accent-rouge {
+  color: var(--electrique);
+}
+
+/* Boutons : rouge en dégradé avec lueur, reflet qui balaie au survol */
+.ant-btn-primary:not(:disabled) {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e11d2e 0%, #b8102a 100%) !important;
+  border: none !important;
+  box-shadow: var(--lueur-rouge) !important;
+}
+.ant-btn-primary:not(:disabled)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s ease;
+  pointer-events: none;
+}
+.ant-btn-primary:not(:disabled):hover::after {
+  transform: translateX(120%);
+}
+.ant-btn-primary:not(:disabled):hover {
+  box-shadow: 0 16px 36px -10px rgba(225, 29, 46, 0.85) !important;
+}
+.ant-btn-default:not(:disabled):hover {
+  border-color: rgba(240, 66, 87, 0.5) !important;
+  color: var(--texte) !important;
+}
+/* Gros boutons d'action : majuscules espacées comme la référence */
+.bouton-signature {
+  height: 52px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Cartes : surface sombre, liseré fin, survol qui s'allume en rouge */
+.ant-card {
+  background: var(--surface) !important;
+}
+.pile > .ant-table-wrapper .ant-table {
+  background: var(--surface);
+}
